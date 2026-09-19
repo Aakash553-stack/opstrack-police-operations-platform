@@ -15,7 +15,7 @@ SQLAlchemy 2.0 + Alembic (backend) · PostgreSQL 16 (database).
 |-------|-------------|--------|
 | 1 | Requirements & architecture | ✅ Done |
 | 2 | Database design (schema, ER diagram, normalization, constraint tests) | ✅ Done |
-| 3 | Alembic migrations | ⬜ Not started |
+| 3 | Alembic migrations | ✅ Done |
 | 4 | FastAPI backend | ⬜ Not started |
 | 5 | Auth & authorization | ⬜ Not started |
 | 6 | Backend test suite | ⬜ Not started |
@@ -27,7 +27,7 @@ SQLAlchemy 2.0 + Alembic (backend) · PostgreSQL 16 (database).
 See [`docs/01-requirements-and-architecture.md`](docs/01-requirements-and-architecture.md)
 for the full roadmap and architecture.
 
-## What's here so far (Phases 1–2)
+## What's here so far (Phases 1–3)
 
 - [`docs/01-requirements-and-architecture.md`](docs/01-requirements-and-architecture.md)
   — MVP/optional scope, architecture diagram, repo layout, 10-phase roadmap.
@@ -43,6 +43,13 @@ for the full roadmap and architecture.
   date ranges, duplicate rosters, concurrent open assignments, no-op
   promotions, malformed badge formats, restricted/cascading/set-null
   deletes), verified against a live PostgreSQL 16 instance.
+- `backend/app/models/` — SQLAlchemy 2.0 ORM models mirroring
+  `database/schema.sql` exactly.
+- `backend/alembic/` — Alembic migration environment. The initial
+  migration reproduces `schema.sql` byte-for-byte (verified with a
+  `pg_dump --schema-only` diff), and both its `upgrade`/`downgrade` cycle
+  and the 10 constraint-test scenarios were re-run against the
+  Alembic-built database to confirm equivalence.
 
 ## Local setup
 
@@ -52,6 +59,15 @@ for the full roadmap and architecture.
 createdb opstrack
 psql -d opstrack -f database/schema.sql
 psql -d opstrack -f database/tests/constraint_tests.sql   # expect 10x RESULT: PASS
+```
+
+### Backend (Alembic-managed database)
+
+```bash
+cd backend
+python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+cp ../.env.example ../.env   # edit DATABASE_URL as needed
+.venv/bin/alembic upgrade head
 ```
 
 ### Full stack (once later phases land)
