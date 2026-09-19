@@ -122,7 +122,7 @@ opstrack-police-operations-platform/
 | 1 | Requirements & architecture (this document) | ✅ Done |
 | 2 | Database design: `schema.sql`, ER diagram, normalization analysis, constraint testing | ✅ Done |
 | 3 | Alembic migrations reproducing `schema.sql` exactly | ✅ Done |
-| 4 | FastAPI backend: models, schemas, CRUD, core routers | ⬜ Not started |
+| 4 | FastAPI backend: models, schemas, CRUD, core routers | ✅ Done |
 | 5 | Authentication & authorization (JWT, role-based access) | ⬜ Not started |
 | 6 | Backend test suite (unit + integration against a real DB) | ⬜ Not started |
 | 7 | React frontend scaffold: routing, API client, auth flow | ⬜ Not started |
